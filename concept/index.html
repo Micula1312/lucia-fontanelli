@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EMERGENCE — Lucia Fontanelli</title>
+<meta name="description" content="Concept presentation for Lucia Fontanelli: a mutable imaginary landscape.">
+<style>
+:root{--paper:#f1efe6;--ink:#28332b;--green:#80947c;--rule:#afb6a5;--red:#b35b51;--mono:'Courier New',monospace}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+header{height:55px;position:fixed;top:0;left:0;right:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:0 4%;gap:20px;background:#f1efe6ef;border-bottom:1px solid var(--rule);backdrop-filter:blur(8px);font:10px var(--mono)}header nav{display:flex;gap:22px}a{color:inherit;text-decoration:none}a:hover{text-decoration:underline}
+section,footer{border-bottom:1px solid var(--rule);padding:100px 6%;position:relative}.overline,.micro{font:10px var(--mono);letter-spacing:.045em}.overline{margin-bottom:40px}h2{font-size:clamp(43px,6.8vw,100px);font-weight:400;line-height:1.04;letter-spacing:-.06em;margin:0 0 42px}h2 em{font-family:Georgia,serif;font-weight:400}p{line-height:1.56}
+.hero{height:100vh;min-height:640px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;padding-top:115px}.hero h1{font-size:clamp(58px,11.5vw,180px);letter-spacing:-.11em;line-height:.88;font-weight:400;position:relative;z-index:2;margin:0}.hero h1 em{font-family:Georgia,serif;font-weight:400}.hero h1 span{color:var(--red)}.hero-title{display:flex;align-items:end;justify-content:space-between;gap:30px}.hero-title p{font:11px var(--mono);position:relative;z-index:2}.hero-surface{width:93%;height:50%;position:absolute;top:36%;left:0;opacity:.76;pointer-events:none;transform:rotate(-5deg)}.hero-foot{display:flex;justify-content:space-between;position:relative;z-index:2;font:10px var(--mono)}
+.intro{display:grid;grid-template-columns:30% 1fr}.intro .lead{max-width:620px;font-size:clamp(21px,2.2vw,30px);margin-left:auto}.intro .small{max-width:620px;margin-left:auto}
+.material-inner{display:grid;grid-template-columns:1.4fr 1fr;gap:10%;align-items:center}.stack{height:450px;position:relative}.sheet{position:absolute;width:60%;height:75%;border:1px solid var(--green);padding:15px;box-shadow:0 12px 30px #242b250b;backdrop-filter:blur(2px);font:10px var(--mono)}.sheet-a{left:4%;top:5%;transform:rotate(-7deg);background:#8aa68c35}.sheet-b{left:20%;top:13%;transform:rotate(6deg);background:#cc99942e;border-color:#b67d78}.sheet-c{left:35%;top:21%;transform:rotate(-4deg);background:#aaa0ca35;border-color:#998bad}.sheet svg{width:100%;height:90%}.sheet-b strong{position:absolute;left:25%;top:29%;font:90px Georgia,serif;line-height:.9;color:#b55849}.sheet-c p{position:absolute;left:13%;top:26%;font:italic 35px Georgia,serif}.material-copy{font-size:21px;max-width:320px}.material-copy .micro{display:block;margin-top:55px}
+.map-head{display:flex;justify-content:space-between;align-items:end;gap:30px}.map-head p{max-width:340px;margin:0 0 40px}.map{position:relative;height:min(78vh,730px);min-height:570px;border:1px solid var(--rule);overflow:hidden}.map canvas{width:100%;height:100%;display:block}.map-corner{position:absolute;top:15px;left:15px;right:15px;display:flex;justify-content:space-between;pointer-events:none;font:10px var(--mono)}
+.control{position:absolute;bottom:15px;left:50%;transform:translateX(-50%);width:min(555px,calc(100% - 25px));background:#f1efe6ed;border:1px solid #879287;padding:15px;font:10px var(--mono);backdrop-filter:blur(8px)}.control-head,.control-bottom{display:flex;justify-content:space-between;align-items:center;gap:16px}.control-head{border-bottom:1px solid var(--rule);padding-bottom:10px}.control-head span{opacity:.55}.buttons{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}.buttons button{background:transparent;border:1px solid #adb4a7;color:inherit;padding:9px 10px;font:10px var(--mono);opacity:.45;cursor:pointer}.buttons button.active{background:#e2e8dd;opacity:1;border-color:#7a8a78}.buttons button b{display:inline-block;width:6px;height:6px;background:var(--red);border-radius:50%;margin-right:8px}.buttons button:nth-child(2) b{background:#729277}.buttons button:nth-child(3) b{background:#9e8db7}.control-bottom{border-top:1px solid var(--rule);padding-top:10px}.control-bottom button{border:0;background:none;color:inherit;cursor:pointer;font:10px var(--mono)}.control-bottom label{display:flex;align-items:center;gap:10px;font-size:9px}.control-bottom input{width:100px;accent-color:var(--green)}.readout{padding-top:12px;opacity:.65;font-size:9px;min-height:21px}.caption{font:10px var(--mono);opacity:.65;margin-top:14px}
+.territory-diagram{position:relative;margin:10px auto 45px;width:min(760px,100%);aspect-ratio:1.6}.area{position:absolute;width:53%;height:69%;border:1px dashed;border-radius:50%;padding:11%;font:11px var(--mono)}.area.a{left:0;top:0;background:#94b29229;border-color:#7b9978}.area.b{right:0;top:0;text-align:right;background:#d6a1a129;border-color:#c28282}.area.c{left:0;bottom:0;background:#d8bf8229;border-color:#bc9c64;display:flex;align-items:end}.area.d{right:0;bottom:0;background:#ac9cc629;border-color:#9283ac;display:flex;align-items:end;justify-content:end}.center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);padding:10px;background:var(--paper);text-align:center;font:10px var(--mono)}.territories>p{max-width:630px;font-size:20px;margin-left:auto}
+.system-layout{display:grid;grid-template-columns:1.3fr 1fr;gap:10%;align-items:center}.system-panel{border:1px solid var(--ink);padding:20px;background:#e6e9df;font:12px var(--mono)}.system-panel>div{border-bottom:1px solid var(--rule);padding:20px 0}.system-panel>div:last-child{border:0;padding-bottom:0;font-size:10px}.system-copy{max-width:350px;font-size:20px}
+.atlas{display:grid;grid-template-columns:repeat(3,1fr);margin-top:45px;border-left:1px solid var(--rule);border-top:1px solid var(--rule)}.item{min-height:180px;padding:12px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);display:flex;flex-direction:column;justify-content:space-between;font:12px var(--mono)}.item .symbol{text-align:center;color:#b35448;font:60px Georgia,serif}.item small{font-size:10px;opacity:.55}footer{min-height:340px;display:flex;justify-content:space-between;align-items:end;gap:25px}footer p{font:11px var(--mono)}
+@media(max-width:800px){header{padding:0 12px}header nav{gap:9px;font-size:8px}header>span{display:none}section,footer{padding:85px 18px}.hero{padding-top:120px}.hero-title{display:block}.hero-title p{text-align:right}.intro,.material-inner,.system-layout{display:block}.intro .lead,.intro .small{margin-left:0}.stack{height:360px}.sheet-b strong{font-size:60px}.sheet-c p{font-size:25px}.map-head{display:block}.map-head p{margin-bottom:25px}.map{height:640px}.buttons button{padding:8px;font-size:9px}.control-bottom{flex-wrap:wrap}.territory-diagram .area{font-size:8px}.territory-diagram .center{font-size:7px}.atlas{grid-template-columns:repeat(2,1fr)}.item{min-height:150px}.item .symbol{font-size:45px}footer{display:block}footer p{margin-top:40px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header><a href="#home">LF / EMERGENCE</a><nav><a href="#concept">CONCEPT</a><a href="#landscape">LANDSCAPE</a><a href="#system">SYSTEM</a><a href="#objects">OBJECTS</a></nav><span>CONCEPT STUDY / 001</span></header>
+<main>
+<section class="hero" id="home"><p class="overline">A WEBSITE CONCEPT FOR LUCIA FONTANELLI</p><div class="hero-title"><h1>EMER<em>G</em>ENCE<span>.</span></h1><p>AN IMAGINARY<br>LIVING LANDSCAPE</p></div><svg class="hero-surface" viewBox="0 0 800 350" preserveAspectRatio="none" aria-hidden="true"><g fill="none" stroke="#859a84" stroke-width="1" id="heroPaths"></g></svg><div class="hero-foot"><span>FIG. 00 / A LANDSCAPE THAT CHANGES SHAPE</span><span>SCROLL TO EXPLORE ↓</span></div></section>
+<section class="intro" id="concept"><div class="overline">01 / CONCEPT</div><div><h2>What if a portfolio<br>was a <em>territory</em><br>instead of an archive?</h2><p class="lead">Artistic practice is not a sequence of isolated works. It is an ecology of relationships between bodies, places, materials, gestures and collaborations.</p><p class="small">Each work becomes a summit. Each summit has an object. Contour lines trace its influence, joining the peaks into a single, mutable landscape.</p></div></section>
+<section><div class="overline">02 / VISUAL LANGUAGE</div><h2>Cartography meets <em>collage.</em></h2><div class="material-inner"><div class="stack"><div class="sheet sheet-a"><small>01 / TERRAIN</small><svg viewBox="0 0 280 240" id="acetate"></svg></div><div class="sheet sheet-b"><small>02 / OBJECTS</small><strong>✺<br>◉ ◇</strong></div><div class="sheet sheet-c"><small>03 / WRITING</small><p>things that<br><em>emerge</em><br>from the<br>surface.</p></div></div><div class="material-copy"><p>Fine isolines, photographic cutouts, transparent sheets, annotations and typography. A digital interface with a tactile imagination.</p><span class="micro">PAPER / TRACING / GEOLOGICAL TIME / FRAGMENTS</span></div></div></section>
+<section id="landscape"><div class="overline">03 / MUTABLE LANDSCAPE</div><div class="map-head"><h2>Every work<br>is a <em>summit.</em></h2><p>Change the filters, modify the elevation, and switch between an axonometric view and a plan. The terrain itself changes geometry.</p></div><div class="map" id="map"><canvas id="terrain"></canvas><div class="map-corner"><span>FIG. 01 — IMAGINARY CONTOURS</span><span>N ↑</span></div><div class="control"><div class="control-head"><b>EMERGENCE ENGINE</b><span>STUDY 001</span></div><div class="buttons"><button class="active" data-layer="works"><b></b>Selected works</button><button class="active" data-layer="curatorial"><b></b>Curatorial practices</button><button class="active" data-layer="collab"><b></b>Collaborations</button></div><div class="control-bottom"><button id="view">↗ AXONOMETRIC</button><label>ELEVATION <input type="range" min="0" max="100" value="65" id="elevation"></label></div><div class="readout" id="readout">MOVE THE CURSOR OVER A PEAK</div></div></div><p class="caption">PROTOTYPE 0.1 / SYMBOLS, RESEARCH AFFINITIES, OBJECTS AND POSITIONS ARE PROVISIONAL.</p></section>
+<section class="territories"><div class="overline">04 / RESEARCH TERRITORIES</div><h2>No borders.<br><em>Overlapping affinities.</em></h2><div class="territory-diagram"><div class="area a">LANDSCAPE</div><div class="area b">BODY</div><div class="area c">DIY / DIT</div><div class="area d">FEMINISM</div><div class="center">RELATIONS<br>NOT BORDERS</div></div><p>The territories are fields of attraction, not rigid folders. Works can belong to more than one, and their positions may change as research evolves.</p></section>
+<section id="system"><div class="overline">05 / INTERFACE</div><h2>Change the filter.<br><em>Change the geography.</em></h2><div class="system-layout"><div class="system-panel"><div>LF / CENTRAL CONTROL INTERFACE</div><div>◉ &nbsp; SELECTED WORKS</div><div>◉ &nbsp; CURATORIAL PRACTICES</div><div>◉ &nbsp; COLLABORATIONS</div><div>INDEX &nbsp; / &nbsp; BIO + CV &nbsp; / &nbsp; MAKE CONTACT ↗</div></div><div class="system-copy"><p>Three navigational layers raise or submerge peaks instead of simply hiding portfolio cards.</p><p>From a central interface, visitors access the project index, biography/CV and Make Contact popup.</p><p>Project pages will combine photographs, videos, writing and documentation like layers of acetate.</p></div></div></section>
+<section id="objects"><div class="overline">06 / OBJECT ATLAS</div><h2>An inventory of<br><em>emergences.</em></h2><div class="atlas" id="atlas"></div><p class="caption">INITIAL EDITORIAL SELECTION BASED ON LUCIA'S PORTFOLIO. SYMBOLIC OBJECTS TO BE REPLACED BY PHOTOGRAPHIC CUTOUTS.</p></section>
+<footer><h2>To be <em>continued...</em></h2><p>LUCIA FONTANELLI / EMERGENCE ENGINE 001<br>A WEBSITE CONCEPT IN PROGRESS<br><br><a href="#home">↑ BACK TO SURFACE</a></p></footer>
+</main>
+<script>
+const NS='http://www.w3.org/2000/svg',hero=document.querySelector('#heroPaths'),acetate=document.querySelector('#acetate');
+for(let i=0;i<18;i++){const p=document.createElementNS(NS,'path');p.setAttribute('d','M '+(-75+i*5)+' '+(275-i*10)+' C 150 '+(70+i*2)+' 240 '+(335-i*10)+' 390 '+(195-i*7)+' S 710 '+(35+i*9)+' 890 '+(130+i*12));hero.appendChild(p)}
+for(let i=0;i<11;i++){const e=document.createElementNS(NS,'ellipse');e.setAttribute('cx','145');e.setAttribute('cy','120');e.setAttribute('rx',String(133-i*12));e.setAttribute('ry',String(110-i*9));e.setAttribute('transform','rotate(-20 145 120)');e.setAttribute('fill','none');e.setAttribute('stroke','#759374');acetate.appendChild(e)}
+const points=[
+{title:'Tender',year:2024,group:'works',glyph:'◉',object:'fossil',x:.46,y:.17,peak:1.05,r:.10},
+{title:'Walking and Falling',year:2025,group:'works',glyph:'✳',object:'skeleton',x:.78,y:.18,peak:.91,r:.09},
+{title:'La medusa è un ispessimento dell’acqua',year:2025,group:'collab',glyph:'✺',object:'jellyfish',x:.52,y:.35,peak:.83,r:.085},
+{title:'INLANDS',year:2024,group:'works',glyph:'◌',object:'stones and clay',x:.23,y:.47,peak:.80,r:.09},
+{title:'ABUNDANCE',year:2024,group:'works',glyph:'✴',object:'shell',x:.76,y:.44,peak:1.15,r:.105},
+{title:'I AM ABUNDANCE',year:2025,group:'works',glyph:'✷',object:'mirror',x:.77,y:.68,peak:.85,r:.09},
+{title:'Sparizione',year:2023,group:'works',glyph:'▤',object:'sideboard',x:.12,y:.63,peak:.95,r:.09},
+{title:'SIGILLO',year:2022,group:'works',glyph:'◇',object:'glass fragment',x:.12,y:.33,peak:.78,r:.085},
+{title:'Luccichio',year:2024,group:'curatorial',glyph:'❋',object:'vegetation',x:.20,y:.15,peak:.93,r:.09},
+{title:'Archive of the Untamed — Deep Data Foraging',year:2024,group:'curatorial',glyph:'⌖',object:'map fragment',x:.19,y:.27,peak:.69,r:.075},
+{title:'EXIT_V',year:2022,group:'curatorial',glyph:'⌘',object:'knot',x:.31,y:.61,peak:.87,r:.09},
+{title:'SSSST...',year:2022,group:'curatorial',glyph:'▧',object:'zine',x:.45,y:.76,peak:.86,r:.09},
+{title:'Only Stones Can Keep Secrets',year:2024,group:'curatorial',glyph:'⬡',object:'stone',x:.58,y:.56,peak:.75,r:.09},
+{title:'Clessidra',year:2023,group:'collab',glyph:'⌛',object:'hourglass',x:.88,y:.36,peak:.82,r:.085}
+];
+const atlas=document.querySelector('#atlas');
+points.slice(0,12).forEach((p,i)=>{const entry=document.createElement('div');entry.className='item';const index=document.createElement('small');index.textContent=String(i+1).padStart(2,'0');const glyph=document.createElement('div');glyph.className='symbol';glyph.textContent=p.glyph;const title=document.createElement('div');title.textContent=p.title;const detail=document.createElement('small');detail.textContent=p.object+' / '+p.year;title.appendChild(document.createElement('br'));title.appendChild(detail);entry.append(index,glyph,title);atlas.appendChild(entry)});
+const canvas=document.querySelector('#terrain'),ctx=canvas.getContext('2d');const box=document.querySelector('#map'),readout=document.querySelector('#readout');
+const active={works:true,curatorial:true,collab:true},amp=points.map(()=>1),target=points.map(()=>1);
+let orientation=1,blend=1,elevation=.65,dirty=true,hits=[],last=0;
+function heightField(x,y){let v=0;points.forEach((p,i)=>{const dx=x-p.x,dy=y-p.y,r2=dx*dx+dy*dy,r=p.r*p.r;v+=amp[i]*p.peak*(.87*Math.exp(-r2/(r*.56))+.13*Math.exp(-r2/(r*3.2)))});return v}
+function draw(timestamp){
+  requestAnimationFrame(draw);if(timestamp-last<28)return;last=timestamp;
+  amp.forEach((v,i)=>{const d=target[i]-v;if(Math.abs(d)>.002){amp[i]+=d*.13;dirty=true}else amp[i]=target[i]});
+  if(Math.abs(blend-orientation)>.002){blend+=(orientation-blend)*.13;dirty=true}else blend=orientation;
+  const w=canvas.clientWidth,h=canvas.clientHeight,dpr=Math.min(devicePixelRatio||1,2);
+  if(!w||!h)return;if(canvas.width!==Math.round(w*dpr)||canvas.height!==Math.round(h*dpr)){canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);dirty=true}
+  if(!dirty)return;dirty=false;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);
+  const scale=Math.min(w*.55,h*.87);
+  function project(x,y,z){const a=[w/2+(x-y)*scale,h*.44+(x+y-1)*scale*.46-z*elevation*scale*.43],b=[w/2+(x-.5)*scale*1.35,h*.45+(y-.5)*scale*1.35];return [b[0]+(a[0]-b[0])*blend,b[1]+(a[1]-b[1])*blend]}
+  const n=77,grid=new Float32Array((n+1)*(n+1)),step=1/n;
+  for(let yy=0;yy<=n;yy++)for(let xx=0;xx<=n;xx++)grid[yy*(n+1)+xx]=heightField(xx*step,yy*step);
+  const at=(x,y)=>grid[y*(n+1)+x];
+  for(let k=1;k<=27;k++){
+    const level=k*.053;ctx.beginPath();
+    for(let yy=0;yy<n;yy++)for(let xx=0;xx<n;xx++){
+      const c=[[xx*step,yy*step,at(xx,yy)],[(xx+1)*step,yy*step,at(xx+1,yy)],[(xx+1)*step,(yy+1)*step,at(xx+1,yy+1)],[xx*step,(yy+1)*step,at(xx,yy+1)]],cross=[];
+      for(let edge=0;edge<4;edge++){const a=c[edge],b=c[(edge+1)%4];if((a[2]<level)!==(b[2]<level)){const t=(level-a[2])/(b[2]-a[2]);cross.push(project(a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,level))}}
+      for(let t=0;t+1<cross.length;t+=2){ctx.moveTo(cross[t][0],cross[t][1]);ctx.lineTo(cross[t+1][0],cross[t+1][1])}
+    }
+    ctx.lineWidth=k%5===0?1.05:.65;ctx.strokeStyle=k%5===0?'#687c69':'#96a491';ctx.stroke();
+  }
+  hits=[];
+  points.map((p,i)=>({p,i})).sort((a,b)=>a.p.x+a.p.y-b.p.x-b.p.y).forEach(o=>{
+    const p=o.p;if(amp[o.i]<.2)return;
+    const z=heightField(p.x,p.y),[x,y]=project(p.x,p.y,z);
+    ctx.globalAlpha=Math.min(1,amp[o.i]*1.3);
+    ctx.strokeStyle='#b35b51';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,y-17);ctx.stroke();ctx.fillStyle='#b35b51';ctx.beginPath();ctx.arc(x,y,2.5,0,7);ctx.fill();
+    ctx.textAlign='center';ctx.font='25px Georgia, serif';ctx.fillText(p.glyph,x,y-19);
+    const label=p.title.length>23?p.title.slice(0,22)+'…':p.title;ctx.font='10px monospace';const tw=ctx.measureText(label).width;ctx.fillStyle='#f1efe6';ctx.fillRect(x-tw/2-3,y-14,tw+6,13);ctx.fillStyle='#28332b';ctx.fillText(label,x,y-4);
+    hits.push({x,y:y-18,p});
+  });ctx.globalAlpha=1;
+}
+document.querySelectorAll('[data-layer]').forEach(button=>button.addEventListener('click',()=>{const name=button.dataset.layer;active[name]=!active[name];button.classList.toggle('active',active[name]);points.forEach((p,i)=>target[i]=active[p.group]?1:.02);dirty=true}));
+document.querySelector('#view').addEventListener('click',e=>{orientation=orientation?0:1;e.currentTarget.textContent=orientation?'↗ AXONOMETRIC':'⊙ PLAN VIEW';dirty=true});
+document.querySelector('#elevation').addEventListener('input',e=>{elevation=Number(e.target.value)/100;dirty=true});
+canvas.addEventListener('pointermove',e=>{const r=canvas.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;let best=null,d=Infinity;hits.forEach(hit=>{const dist=Math.hypot(hit.x-x,hit.y-y);if(dist<d){best=hit;d=dist}});readout.textContent=best&&d<27?best.p.title.toUpperCase()+' / '+best.p.object.toUpperCase():'MOVE THE CURSOR OVER A PEAK'});
+window.addEventListener('resize',()=>dirty=true);
+requestAnimationFrame(draw);
+</script>
+</body></html>
