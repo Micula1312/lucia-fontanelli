@@ -26,7 +26,7 @@ let orientation=1,blend=1,elevation=.65,dirty=true,hits=[],last=0;
 function heightField(x,y){let v=0;points.forEach((p,i)=>{const dx=x-p.x,dy=y-p.y,r2=dx*dx+dy*dy,r=p.r*p.r;v+=amp[i]*p.peak*(.87*Math.exp(-r2/(r*.56))+.13*Math.exp(-r2/(r*3.2)))});return v}
 function draw(timestamp){
   requestAnimationFrame(draw);if(timestamp-last<28)return;last=timestamp;
-  amp.forEach((v,i)=>{const d=target[i]-v;if(Math.abs(d)>.002){amp[i]+=d*.13;dirty=true}else amp[i]=target[i]});
+  amp.forEach((v,i)=>{const d=target[i]-v;if(Math.abs(d)>.002){amp[i]+=d*.13;dirty=true}else if(d!==0){amp[i]=target[i];dirty=true}});
   if(Math.abs(blend-orientation)>.002){blend+=(orientation-blend)*.13;dirty=true}else blend=orientation;
   const w=canvas.clientWidth,h=canvas.clientHeight,dpr=Math.min(devicePixelRatio||1,2);
   if(!w||!h)return;if(canvas.width!==Math.round(w*dpr)||canvas.height!==Math.round(h*dpr)){canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);dirty=true}
@@ -37,7 +37,7 @@ function draw(timestamp){
   for(let yy=0;yy<=n;yy++)for(let xx=0;xx<=n;xx++)grid[yy*(n+1)+xx]=heightField(xx*step,yy*step);
   const at=(x,y)=>grid[y*(n+1)+x];
   for(let k=1;k<=settings.density;k++){
-    const level=k*1.45/settings.density;ctx.beginPath();
+    const level=k*2.35/settings.density;ctx.beginPath();
     for(let yy=0;yy<n;yy++)for(let xx=0;xx<n;xx++){
       const c=[[xx*step,yy*step,at(xx,yy)],[(xx+1)*step,yy*step,at(xx+1,yy)],[(xx+1)*step,(yy+1)*step,at(xx+1,yy+1)],[xx*step,(yy+1)*step,at(xx,yy+1)]],cross=[];
       for(let edge=0;edge<4;edge++){const a=c[edge],b=c[(edge+1)%4];if((a[2]<level)!==(b[2]<level)){const t=(level-a[2])/(b[2]-a[2]);cross.push(project(a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,level))}}
@@ -47,7 +47,7 @@ function draw(timestamp){
   }
   hits=[];
   points.map((p,i)=>({p,i})).sort((a,b)=>a.p.x+a.p.y-b.p.x-b.p.y).forEach(o=>{
-    const p=o.p;if(amp[o.i]<.2)return;
+    const p=o.p;if(amp[o.i]<.08)return;
     const z=heightField(p.x,p.y),[x,y]=project(p.x,p.y,z);
     ctx.globalAlpha=Math.min(1,amp[o.i]*1.3);
     ctx.strokeStyle='#b35b51';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,y-17);ctx.stroke();ctx.fillStyle='#b35b51';ctx.beginPath();ctx.arc(x,y,2.5,0,7);ctx.fill();
@@ -58,14 +58,14 @@ function draw(timestamp){
 }
 
 const $=id=>document.getElementById(id);const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-function sync(){amp.length=points.length;target.length=points.length;points.forEach((p,i)=>{target[i]=p.groups.some(g=>active[g])?1:.02;if(!Number.isFinite(amp[i]))amp[i]=target[i]});dirty=true}
+function sync(){amp.length=points.length;target.length=points.length;points.forEach((p,i)=>{target[i]=p.groups.some(g=>active[g])?(Object.values(active).every(Boolean)?1:1.55):.06;if(!Number.isFinite(amp[i]))amp[i]=target[i]});dirty=true}
 function select(i){selected=i;refresh();dirty=true}
 function refresh(){const atlas=$('atlas');atlas.replaceChildren();points.forEach((p,i)=>{const b=document.createElement('button');b.textContent=p.glyph+' '+p.title;b.className=i===selected?'active':'';b.onclick=()=>select(i);atlas.append(b)});const root=$('inspector');root.replaceChildren();const p=points[selected];if(!p)return;
 function field(key,label,type,min,max,step){const l=document.createElement('label');l.className='field';l.textContent=label;const input=document.createElement('input');input.type=type;input.value=p[key];if(min!==undefined){input.min=min;input.max=max;input.step=step}input.dataset.key=key;input.oninput=()=>{p[key]=type==='text'?input.value:Number(input.value);if(key==='title'||key==='glyph')atlas.children[selected].textContent=p.glyph+' '+p.title;dirty=true};l.append(input);root.append(l)}
 field('title','Project title','text');field('object','Object','text');field('glyph','Symbol','text');field('x','X position','range',.02,.98,.005);field('y','Y position','range',.02,.98,.005);field('peak','Altitude','range',.05,2,.01);field('r','Influence radius','range',.025,.3,.005);field('size','Object size','range',10,75,1);
 for(const [key,items] of [['groups',Object.entries(layers)],['areas',areas.map(a=>[a,a])]]){const f=document.createElement('fieldset'),legend=document.createElement('legend');legend.textContent=key;f.append(legend);items.forEach(([v,label])=>{const l=document.createElement('label'),b=document.createElement('input');b.type='checkbox';b.checked=p[key].includes(v);b.onchange=()=>{p[key]=b.checked?[...p[key],v]:p[key].filter(x=>x!==v);sync()};l.append(b,document.createTextNode(label));f.append(l)});root.append(f)}
 const del=document.createElement('button');del.textContent='DELETE PROJECT';del.onclick=()=>{if(confirm('Delete '+p.title+'?')){points.splice(selected,1);amp.splice(selected,1);target.splice(selected,1);selected=Math.max(0,selected-1);sync();refresh()}};root.append(del)}
-Object.entries(layers).forEach(([k,label])=>{const b=document.createElement('button');b.textContent=label;b.className='active';b.onclick=()=>{active[k]=!active[k];b.classList.toggle('active',active[k]);sync()};$('filters').append(b)});
+Object.entries(layers).forEach(([k,label])=>{const b=document.createElement('button');b.textContent=label;b.className='active';b.onclick=()=>{const solo=active[k]&&Object.keys(active).filter(g=>active[g]).length===1;Object.keys(active).forEach((g,i)=>{active[g]=solo||g===k;$('filters').children[i].classList.toggle('active',active[g])});sync()};$('filters').append(b)});
 $('add').onclick=()=>{points.push({title:'New project',object:'Object',glyph:'◇',x:.5,y:.5,peak:.8,r:.09,size:25,groups:['works'],areas:[]});sync();select(points.length-1)};
 $('duplicate').onclick=()=>{if(!points[selected])return;const p=JSON.parse(JSON.stringify(points[selected]));p.title+=' copy';p.x=clamp(p.x+.04,.02,.98);points.push(p);sync();select(points.length-1)};
 $('view').onclick=()=>{orientation=orientation?0:1;$('view').textContent=orientation?'AXONOMETRIC':'PLAN VIEW';dirty=true};$('elevation').oninput=e=>{elevation=Number(e.target.value)/100;dirty=true};Object.keys(settings).forEach(k=>$(k).oninput=e=>{settings[k]=e.target.type==='color'?e.target.value:Number(e.target.value);dirty=true});
