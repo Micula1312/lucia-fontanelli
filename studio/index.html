@@ -24,6 +24,7 @@ const canvas=document.querySelector('#terrain'),ctx=canvas.getContext('2d');cons
 const active={works:true,curatorial:true,collab:true},amp=points.map(()=>1),target=points.map(()=>1);
 let orientation=1,blend=1,elevation=.65,dirty=true,hits=[],last=0;
 function heightField(x,y){let v=0;points.forEach((p,i)=>{const dx=x-p.x,dy=y-p.y,r2=dx*dx+dy*dy,r=p.r*p.r;v+=amp[i]*p.peak*(.87*Math.exp(-r2/(r*.56))+.13*Math.exp(-r2/(r*3.2)))});return v}
+let fixedFrame=null;
 function draw(timestamp){
   requestAnimationFrame(draw);if(timestamp-last<28)return;last=timestamp;
   amp.forEach((v,i)=>{const d=target[i]-v;if(Math.abs(d)>.002){amp[i]+=d*.13;dirty=true}else if(d!==0){amp[i]=target[i];dirty=true}});
@@ -37,8 +38,8 @@ function draw(timestamp){
   for(let yy=0;yy<=n;yy++)for(let xx=0;xx<=n;xx++)grid[yy*(n+1)+xx]=heightField(xx*step,yy*step);
   const at=(x,y)=>grid[y*(n+1)+x];
   function bounds(){let l=Infinity,r=-Infinity,t=Infinity,b=-Infinity;function add(x,y,z,padX=0,padTop=0){const q=project(x,y,z);l=Math.min(l,q[0]-padX);r=Math.max(r,q[0]+padX);t=Math.min(t,q[1]-padTop);b=Math.max(b,q[1]+5)}for(let yy=0;yy<=n;yy++)for(let xx=0;xx<=n;xx++){const z=at(xx,yy);if(z>=3.1/settings.density)add(xx*step,yy*step,Math.min(z,3.1))}points.forEach((p,i)=>{if(amp[i]>=.08)add(p.x,p.y,heightField(p.x,p.y),Math.max(75,p.size||25),Math.max(45,(p.size||25)+24))});return {l,r,t,b}}
-  let bb=bounds();const nav=document.getElementById('publicNav');const top=output&&nav?Math.max(0,nav.getBoundingClientRect().bottom-canvas.getBoundingClientRect().top):0;const margin=24;
-  if(Number.isFinite(bb.l)){scale*=Math.min(1,(w-2*margin)/Math.max(1,bb.r-bb.l),Math.max(1,h-top-2*margin)/Math.max(1,bb.b-bb.t));bb=bounds();offsetX=w/2-(bb.l+bb.r)/2;offsetY=(h+top)/2-(bb.t+bb.b)/2}projectionScale=scale;
+  const nav=document.getElementById('publicNav');const top=output&&nav?Math.max(0,nav.getBoundingClientRect().bottom-canvas.getBoundingClientRect().top):0;const margin=24;
+  if(!fixedFrame||fixedFrame.w!==w||fixedFrame.h!==h||fixedFrame.top!==top){let bb=bounds();if(Number.isFinite(bb.l)){scale*=Math.min(1,(w-2*margin)/Math.max(1,bb.r-bb.l),Math.max(1,h-top-2*margin)/Math.max(1,bb.b-bb.t));bb=bounds();offsetX=w/2-(bb.l+bb.r)/2;offsetY=(h+top)/2-(bb.t+bb.b)/2}fixedFrame={w,h,top,scale,offsetX,offsetY};}else{({scale,offsetX,offsetY}=fixedFrame)}projectionScale=scale;
   for(let k=1;k<=settings.density;k++){
     const level=k*3.1/settings.density;ctx.beginPath();
     for(let yy=0;yy<n;yy++)for(let xx=0;xx<n;xx++){
@@ -60,7 +61,7 @@ function draw(timestamp){
   });ctx.globalAlpha=1;
 }
 
-const $=id=>document.getElementById(id);$('recenter').onclick=()=>{dirty=true};window.addEventListener('resize',()=>{dirty=true});const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const $=id=>document.getElementById(id);$('recenter').onclick=()=>{fixedFrame=null;dirty=true};window.addEventListener('resize',()=>{dirty=true});const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 function sync(){amp.length=points.length;target.length=points.length;points.forEach((p,i)=>{target[i]=p.groups.some(g=>active[g])?(Object.values(active).every(Boolean)?1:1.55):.06;if(!Number.isFinite(amp[i]))amp[i]=target[i]});dirty=true}
 function select(i){selected=i;refresh();dirty=true}
 function refresh(){const atlas=$('atlas');atlas.replaceChildren();points.forEach((p,i)=>{const b=document.createElement('button');b.textContent=p.glyph+' '+p.title;b.className=i===selected?'active':'';b.onclick=()=>select(i);atlas.append(b)});const root=$('inspector');root.replaceChildren();const p=points[selected];if(!p)return;
